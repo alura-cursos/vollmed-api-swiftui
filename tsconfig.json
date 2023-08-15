@@ -1,0 +1,25 @@
+{
+	"compilerOptions": {
+		"module": "ES2022",
+		"lib": [
+			"ES6"
+		],
+		"rootDirs": [
+			"./src"
+		],
+		"outDir": "./build",
+		"allowJs": true,
+		"target": "es2017",
+		"esModuleInterop": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"moduleResolution": "node",
+		"strictNullChecks": true,
+	},
+	"include": [
+		"./src/**/*"],
+	"exclude": [
+		"node_modules"
+	],
+	"ts-node": {"esm": true}
+}
