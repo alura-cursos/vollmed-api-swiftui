@@ -2,13 +2,6 @@ import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from "typeorm";
 import { Especialista } from "../especialistas/Especialista.entity.js";
 import { Paciente } from "../pacientes/paciente.entity.js";
 
-
-enum MotivoCancelamento {
-  paciente_desistiu,
-  médico_cancelou,
-  outros,
-}
-
 @Entity()
 export class Consulta {
   @PrimaryGeneratedColumn("uuid")

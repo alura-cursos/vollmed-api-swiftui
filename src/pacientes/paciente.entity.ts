@@ -9,7 +9,6 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from "typeorm";
-import { Endereco } from "../enderecos/endereco.entity.js";
 import { type IAutenticavel } from "../auth/IAutencavel.js";
 import { Role } from "../auth/roles.js";
 import { encryptPassword } from "../auth/cryptografiaSenha.js";
@@ -31,12 +30,6 @@ export class Paciente implements IAutenticavel {
   @Column("varchar", { length: 100, select: false })
   senha: string;
 
-  @OneToOne(() => Endereco, {
-    cascade: ["update"],
-  })
-  @JoinColumn({ referencedColumnName: "id" })
-  endereco: Relation<Endereco>;
-
   @Column({ type: "int" })
   telefone: number;
 
@@ -49,9 +42,6 @@ export class Paciente implements IAutenticavel {
   @Column("varchar", { length: 100, nullable: true })
   planoSaude: string;
 
-  @Column("varchar", { nullable: true })
-  imagem: string;
-
   @Column("varchar", { nullable: false })
   role: Role;
 
@@ -63,7 +53,6 @@ export class Paciente implements IAutenticavel {
     telefone,
     planoSaude,
     estaAtivo,
-    imagem
   ) {
     this.cpf = cpf;
     this.nome = nome;
@@ -72,7 +61,6 @@ export class Paciente implements IAutenticavel {
     this.senha = senha;
     this.telefone = telefone;
     this.planoSaude = planoSaude;
-    this.imagem = imagem;
     this.role = Role.paciente;
   }
 

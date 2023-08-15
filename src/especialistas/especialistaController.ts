@@ -1,7 +1,6 @@
 import { type Request, type Response } from "express";
 import { AppDataSource } from "../data-source.js";
 import { Especialista } from "./Especialista.entity.js";
-import { Endereco } from "../enderecos/endereco.entity.js";
 import { AppError } from "../error/ErrorHandler.js";
 import { encryptPassword } from "../auth/cryptografiaSenha.js";
 
@@ -28,7 +27,6 @@ export const criarEspecialista = async (
     crm,
     imagem,
     especialidade,
-    endereco,
     email,
     telefone,
     estaAtivo,
@@ -45,24 +43,6 @@ export const criarEspecialista = async (
     telefone,
     senha
   );
-
-  const enderecoPaciente = new Endereco();
-
-  if (endereco !== undefined) {
-    enderecoPaciente.cep = endereco.cep;
-    enderecoPaciente.rua = endereco.rua;
-    enderecoPaciente.estado = endereco.estado;
-    enderecoPaciente.numero = endereco.numero;
-    enderecoPaciente.complemento = endereco.complemento;
-
-    especialista.endereco = enderecoPaciente;
-
-    await AppDataSource.manager
-      .save(Endereco, enderecoPaciente)
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 
   try {
     await AppDataSource.manager.save(Especialista, especialista);
@@ -176,29 +156,4 @@ export const atualizaContato = async (
   } else {
     throw new AppError("Telefone não atualizado");
   }
-};
-
-export const buscarEspecialistas = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { especialidade, estado } = req.query;
-
-  if (especialidade === null || estado === null) {
-    throw new AppError("Especialidade ou estados inválidos");
-  }
-
-  const especialistas = await AppDataSource.manager.find(Especialista, {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    where: especialidade
-      ? { especialidade: especialidade as string }
-      : undefined,
-    relations: ["endereco"],
-  });
-
-  const resultado = especialistas.filter(
-    (especialista) => especialista.endereco.estado === estado
-  );
-
-  return res.json(resultado);
 };

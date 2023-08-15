@@ -20,7 +20,7 @@ export const seedPacientes = async () => {
 
     for (const dados of pacientes) {
       const entidade = AppDataSource.manager.create(Paciente, dados);
-      await AppDataSource.manager.save(entidade);
+      const pacienteSalvo = await AppDataSource.manager.save(entidade);
       console.log(`Paciente "${dados.nome}" criado com sucesso.`);
     }
     console.log("---- /n Seed pacientes concluído com sucesso.");

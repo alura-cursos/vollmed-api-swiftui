@@ -10,7 +10,6 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from "typeorm";
-import { Endereco } from "../enderecos/endereco.entity.js";
 import { type IAutenticavel } from "../auth/IAutencavel.js";
 import { Role } from "../auth/roles.js";
 import { encryptPassword } from "../auth/cryptografiaSenha.js";
@@ -43,12 +42,6 @@ export class Especialista implements IAutenticavel {
 
   @Column("varchar", { nullable: true })
   telefone: string;
-
-  @OneToOne(() => Endereco, {
-    cascade: ["update"],
-  })
-  @JoinColumn({ referencedColumnName: "id" })
-  endereco: Relation<Endereco>;
 
   @Column("varchar", { nullable: false })
   role: Role;

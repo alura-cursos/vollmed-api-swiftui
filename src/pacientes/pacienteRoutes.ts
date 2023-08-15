@@ -5,7 +5,6 @@ import {
   lerPaciente,
   atualizarPaciente,
   desativaPaciente,
-  atualizarEnderecoPaciente,
   listaConsultasPaciente,
 } from "./pacienteController.js";
 
@@ -17,7 +16,6 @@ pacienteRouter.get("/:id", lerPaciente);
 pacienteRouter.get("/:id/consultas", listaConsultasPaciente);
 pacienteRouter.put("/:id", atualizarPaciente);
 pacienteRouter.delete("/:id", desativaPaciente);
-pacienteRouter.patch("/:id", atualizarEnderecoPaciente);
 export default (app) => {
   app.use("/paciente", pacienteRouter);
 };
