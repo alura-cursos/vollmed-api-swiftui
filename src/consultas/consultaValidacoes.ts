@@ -44,14 +44,6 @@ const validaAntecedenciaMinima = (
   return horarioDaConsulta > agora;
 };
 
-const estaAtivoPaciente = async (pacienteId: string): Promise<boolean> => {
-  const paciente = await AppDataSource.manager.findOneBy(Paciente, {
-    id: pacienteId,
-  });
-
-  return paciente?.estaAtivo ?? false;
-};
-
 const estaAtivoEspecialista = async (
   especialistaId: string
 ): Promise<boolean> => {
@@ -128,7 +120,6 @@ const especialistaEstaDisponivel = async (
 export {
   validaClinicaEstaAberta,
   validaAntecedenciaMinima,
-  estaAtivoPaciente,
   estaAtivoEspecialista,
   pacienteEstaDisponivel,
   especialistaEstaDisponivel,

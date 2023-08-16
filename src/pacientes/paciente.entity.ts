@@ -33,12 +33,6 @@ export class Paciente implements IAutenticavel {
   @Column({ type: "int" })
   telefone: number;
 
-  @Column({ type: "boolean", default: true })
-  estaAtivo: boolean;
-
-  @Column({ type: "boolean", default: true })
-  possuiPlanoSaude: boolean;
-
   @Column("varchar", { length: 100, nullable: true })
   planoSaude: string;
 
@@ -52,12 +46,10 @@ export class Paciente implements IAutenticavel {
     senha: string,
     telefone,
     planoSaude,
-    estaAtivo,
   ) {
     this.cpf = cpf;
     this.nome = nome;
     this.email = email;
-    this.estaAtivo = estaAtivo;
     this.senha = senha;
     this.telefone = telefone;
     this.planoSaude = planoSaude;

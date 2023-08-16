@@ -11,8 +11,6 @@ export const criarPaciente = async (req: Request, res: Response): Promise<void> 
     nome,
     email,
     senha,
-    estaAtivo,
-    possuiPlanoSaude,
     telefone,
     planoSaude,
   } = req.body;
@@ -20,6 +18,7 @@ export const criarPaciente = async (req: Request, res: Response): Promise<void> 
   if (!CPFValido(cpf)) {
     throw new AppError("CPF Inválido!");
   }
+
 
   try {
     const paciente = new Paciente(
@@ -29,9 +28,7 @@ export const criarPaciente = async (req: Request, res: Response): Promise<void> 
       senha,
       telefone,
       planoSaude,
-      estaAtivo,
     );
-    paciente.possuiPlanoSaude = possuiPlanoSaude;
 
     await AppDataSource.manager.save(Paciente, paciente);
 
@@ -96,9 +93,7 @@ export const atualizarPaciente = async (req: Request, res: Response): Promise<vo
     nome,
     email,
     senha,
-    estaAtivo,
     telefone,
-    possuiPlanoSaude,
     planoSaude,
     cpf
   } = req.body;
@@ -120,10 +115,8 @@ export const atualizarPaciente = async (req: Request, res: Response): Promise<vo
       paciente.cpf = cpf;
       paciente.nome = nome;
       paciente.email = email;
-      paciente.possuiPlanoSaude = possuiPlanoSaude;
       paciente.telefone = telefone;
       paciente.planoSaude = planoSaude;
-      paciente.estaAtivo = estaAtivo;
 
       await AppDataSource.manager.save(Paciente, paciente);
       res.status(200).json(paciente);
@@ -139,11 +132,4 @@ export const desativaPaciente = async (req: Request, res: Response): Promise<voi
   const paciente = await AppDataSource.manager.findOne(Paciente, {
     where: { id },
   });
-
-  if (paciente !== null) {
-    paciente.estaAtivo = false;
-    res.json({
-      message: "Paciente desativado!",
-    });
-  }
 };

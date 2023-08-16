@@ -3,7 +3,6 @@ import { AppDataSource } from '../data-source.js'
 import { Consulta } from './consulta.entity.js'
 import {
   estaAtivoEspecialista,
-  estaAtivoPaciente,
   validaAntecedenciaMinima,
   validaClinicaEstaAberta,
   pacienteEstaDisponivel,
@@ -26,10 +25,6 @@ export const criaConsulta = async (
       'A consulta deve ser agendada com 30 minutos de antecedência',
       Status.BAD_REQUEST
     )
-  }
-  const situacaoPaciente = await estaAtivoPaciente(paciente)
-  if (!situacaoPaciente) {
-    throw new AppError('Paciente não está ativo', Status.BAD_REQUEST)
   }
 
   const situacaoEspecialista = await estaAtivoEspecialista(especialista)
