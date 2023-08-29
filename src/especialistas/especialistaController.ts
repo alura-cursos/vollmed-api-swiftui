@@ -18,46 +18,95 @@ export const especialistas = async (
 };
 // Post
 // Se o especialista for criado apenas com os atributos opcionais, enviar mensagem avisando quais campos faltam
+
 export const criarEspecialista = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  let {
-    nome,
-    crm,
-    imagem,
-    especialidade,
-    email,
-    telefone,
-    estaAtivo,
-    senha,
-  } = req.body;
+  const requestBody = req.body;
 
-  const especialista = new Especialista(
-    nome,
-    crm,
-    imagem,
-    estaAtivo,
-    especialidade,
-    email,
-    telefone,
-    senha
-  );
+  if (Array.isArray(requestBody)) {
+    // Se o corpo for um array, trata como múltiplos especialistas
+    const createdEspecialistas: Especialista[] = [];
 
-  try {
-    await AppDataSource.manager.save(Especialista, especialista);
-    res.status(200).json(especialista);
-  } catch (error) {
-    if (
-      (await AppDataSource.manager.findOne(Especialista, { where: { crm } })) !=
-      null
-    ) {
-      res.status(422).json({ message: "Crm já cadastrado" });
-    } else {
-      throw new AppError("Especialista não foi criado");
+    for (const especialistaData of requestBody) {
+      const {
+        nome,
+        crm,
+        imagem,
+        especialidade,
+        email,
+        telefone,
+        senha,
+      } = especialistaData;
+
+      const especialista = new Especialista(
+        nome,
+        crm,
+        imagem,
+        true,
+        especialidade,
+        email,
+        telefone,
+        senha
+      );
+
+      try {
+        await AppDataSource.manager.save(Especialista, especialista);
+        createdEspecialistas.push(especialista);
+      } catch (error) {
+        if (
+          (await AppDataSource.manager.findOne(Especialista, {
+            where: { crm },
+          })) != null
+        ) {
+          res.status(422).json({ message: `Crm ${crm} já cadastrado` });
+        } else {
+          throw new AppError("Especialista não foi criado");
+        }
+      }
+    }
+
+    res.status(200).json(createdEspecialistas);
+  } else {
+    // Se o corpo for um objeto, trata como um único especialista
+    const {
+      nome,
+      crm,
+      imagem,
+      especialidade,
+      email,
+      telefone,
+      senha,
+    } = requestBody;
+
+    const especialista = new Especialista(
+      nome,
+      crm,
+      imagem,
+      true,
+      especialidade,
+      email,
+      telefone,
+      senha
+    );
+
+    try {
+      await AppDataSource.manager.save(Especialista, especialista);
+      res.status(200).json(especialista);
+    } catch (error) {
+      if (
+        (await AppDataSource.manager.findOne(Especialista, { where: { crm } })) !=
+        null
+      ) {
+        res.status(422).json({ message: "Crm já cadastrado" });
+      } else {
+        throw new AppError("Especialista não foi criado");
+      }
     }
   }
 };
+
 // Get By Id
 export const especialistaById = async (
   req: Request,
@@ -87,7 +136,6 @@ export const atualizarEspecialista = async (
     especialidade,
     email,
     telefone,
-    estaAtivo,
     senha,
   } = req.body;
   const { id } = req.params;
@@ -101,7 +149,7 @@ export const atualizarEspecialista = async (
   if (especialistaUpdate !== null) {
     especialistaUpdate.nome = nome;
     especialistaUpdate.crm = crm;
-    especialistaUpdate.estaAtivo = estaAtivo;
+    especialistaUpdate.estaAtivo = true;
     especialistaUpdate.imagem = imagem;
     especialistaUpdate.especialidade = especialidade;
     especialistaUpdate.email = email;
