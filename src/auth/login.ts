@@ -25,13 +25,13 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 
     const token = jwt.sign({ id, role }, process.env.SECRET, {
-      expiresIn: 86400,
+      expiresIn: 3.1536e+7,
     }); // expira em 24 horas
 
     res.status(200).json({
       auth: true,
+      id,
       token,
-      rota,
     });
   }
 };
