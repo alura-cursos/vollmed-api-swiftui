@@ -4,9 +4,9 @@ import { type IAutenticavel } from "./IAutenticavel.js";
 
 @ViewEntity({
   expression: `
-    SELECT "email", "senha", "role", "id", '/paciente' AS "rota" FROM "paciente"
+    SELECT "email", "senha", "id", '/paciente' AS "rota" FROM "paciente"
     UNION ALL
-    SELECT "email", "senha", "role", "id", '/especialista' AS "rota" FROM "especialista"
+    SELECT "email", "senha", "id", '/especialista' AS "rota" FROM "especialista"
   `,
 })
 export class Autenticaveis implements IAutenticavel {
@@ -21,7 +21,4 @@ export class Autenticaveis implements IAutenticavel {
 
   @ViewColumn()
   rota: string;
-
-  @ViewColumn()
-  role: Role;
 }
