@@ -9,7 +9,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from "typeorm";
-import { type IAutenticavel } from "../auth/IAutencavel.js";
+import { type IAutenticavel } from "../auth/IAutenticavel.js";
 import { Role } from "../auth/roles.js";
 import { encryptPassword } from "../auth/cryptografiaSenha.js";
 
@@ -36,9 +36,6 @@ export class Paciente implements IAutenticavel {
   @Column("varchar", { length: 100, nullable: true })
   planoSaude: string;
 
-  @Column("varchar", { nullable: false })
-  role: Role;
-
   constructor(
     cpf,
     nome,
@@ -53,7 +50,6 @@ export class Paciente implements IAutenticavel {
     this.senha = senha;
     this.telefone = telefone;
     this.planoSaude = planoSaude;
-    this.role = Role.paciente;
   }
 
   @BeforeInsert()

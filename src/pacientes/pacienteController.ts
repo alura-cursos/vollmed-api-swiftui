@@ -70,6 +70,11 @@ export const lerPaciente = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
+function formatDateToISOWithoutMillis(date) {
+  let isoString = date.toISOString(); // Convertendo para string ISO
+  return isoString.slice(0, 19); // Removendo os milissegundos e o sufixo "Z"
+}
+
 export const listaConsultasPaciente = async (req: Request, res: Response): Promise<Response> => {
   const { id } = req.params;
   const paciente = await AppDataSource.manager.findOne(Paciente, {
@@ -87,7 +92,7 @@ export const listaConsultasPaciente = async (req: Request, res: Response): Promi
   const consultadasTratadas = consultas.map((consulta) => {
     return {
       id: consulta.id,
-      data: consulta.data,
+      data: formatDateToISOWithoutMillis(consulta.data),
       especialista: consulta.especialista,
     };
   });

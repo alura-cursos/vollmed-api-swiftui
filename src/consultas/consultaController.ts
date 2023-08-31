@@ -2,7 +2,6 @@ import { type Request, type Response } from 'express'
 import { AppDataSource } from '../data-source.js'
 import { Consulta } from './consulta.entity.js'
 import {
-  estaAtivoEspecialista,
   validaAntecedenciaMinima,
   validaClinicaEstaAberta,
   pacienteEstaDisponivel,
@@ -25,12 +24,6 @@ export const criaConsulta = async (
       'A consulta deve ser agendada com 30 minutos de antecedência',
       Status.BAD_REQUEST
     )
-  }
-
-  const situacaoEspecialista = await estaAtivoEspecialista(especialista)
-
-  if (!situacaoEspecialista) {
-    throw new AppError('Especialista não está ativo', Status.BAD_REQUEST)
   }
 
   if (!(await pacienteEstaDisponivel(paciente, data))) {
@@ -125,8 +118,15 @@ export const atualizaHorarioConsulta = async (
     throw new AppError('Consulta não encontrada')
   }
 
+  console.log(novaData)
   consulta.data = novaData
 
   await AppDataSource.manager.save(Consulta, consulta)
-  res.json({ mensagem: 'Horário da consulta atualizado com sucesso' })
+  res.json({
+    especialista: consulta.especialista.id,
+    paciente: consulta.paciente.id,
+    data: consulta.data,
+    motivoCancelamento: consulta.motivoCancelamento,
+    id: consulta.id
+  })
 }

@@ -44,7 +44,6 @@ export const criarEspecialista = async (
         nome,
         crm,
         imagem,
-        true,
         especialidade,
         email,
         telefone,
@@ -84,7 +83,6 @@ export const criarEspecialista = async (
       nome,
       crm,
       imagem,
-      true,
       especialidade,
       email,
       telefone,
@@ -149,7 +147,6 @@ export const atualizarEspecialista = async (
   if (especialistaUpdate !== null) {
     especialistaUpdate.nome = nome;
     especialistaUpdate.crm = crm;
-    especialistaUpdate.estaAtivo = true;
     especialistaUpdate.imagem = imagem;
     especialistaUpdate.especialidade = especialidade;
     especialistaUpdate.email = email;

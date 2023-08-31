@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from "typeorm";
-import { type IAutenticavel } from "../auth/IAutencavel.js";
+import { type IAutenticavel } from "../auth/IAutenticavel.js";
 import { Role } from "../auth/roles.js";
 import { encryptPassword } from "../auth/cryptografiaSenha.js";
 
@@ -28,9 +28,6 @@ export class Especialista implements IAutenticavel {
   @Column("varchar")
   imagem: string;
 
-  @Column({ type: "boolean", default: true })
-  estaAtivo: boolean;
-
   @Column("varchar", { length: 100 })
   especialidade: string;
 
@@ -43,14 +40,10 @@ export class Especialista implements IAutenticavel {
   @Column("varchar", { nullable: true })
   telefone: string;
 
-  @Column("varchar", { nullable: false })
-  role: Role;
-
   constructor(
     nome,
     crm,
     imagem,
-    estaAtivo,
     especialidade,
     email,
     telefone,
@@ -59,12 +52,10 @@ export class Especialista implements IAutenticavel {
     this.nome = nome;
     this.crm = crm;
     this.imagem = imagem;
-    this.estaAtivo = estaAtivo;
     this.especialidade = especialidade;
     this.email = email;
     this.telefone = telefone;
     this.senha = senha;
-    this.role = Role.especialista;
   }
   @BeforeInsert()
   @BeforeUpdate()
