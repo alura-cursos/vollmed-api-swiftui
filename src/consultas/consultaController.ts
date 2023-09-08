@@ -94,9 +94,11 @@ export const deletaConsulta = async (
   }
 
   const HORA = 60 * 24
+  //console.log(validaAntecedenciaMinima(consulta.data, HORA))
   if (!validaAntecedenciaMinima(consulta.data, HORA)) {
     throw new AppError(
-      'A consulta deve ser desmarcada com 1 dia de antecedência'
+      'A consulta deve ser desmarcada com 1 dia de antecedência',
+      Status.BAD_REQUEST
     )
   }
 

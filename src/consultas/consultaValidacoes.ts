@@ -7,6 +7,16 @@ import { Consulta } from "./consulta.entity.js";
 const horarioInicioDaClinica: number = 7;
 const horarioFechamentoDaClinica: number = 19;
 
+const adjustForTimezone = (date: Date): Date => {
+  const dataObj = new Date(date)
+
+  const timezoneOffset = dataObj.getTimezoneOffset() * 60000
+
+  dataObj.setTime(dataObj.getTime() + timezoneOffset)
+
+  return dataObj
+}
+
 const validaClinicaEstaAberta = (data: Date): boolean => {
   const diasDaSemana = [
     "Domingo",
@@ -18,9 +28,10 @@ const validaClinicaEstaAberta = (data: Date): boolean => {
     "Sábado",
   ];
   const dataObj = new Date(data);
+
   const diaDaSemana = diasDaSemana[dataObj.getDay()];
   const hora = dataObj.getHours();
-  
+
   return (
     diaDaSemana !== "Domingo" &&
     hora >= horarioInicioDaClinica &&
@@ -40,11 +51,9 @@ const validaAntecedenciaMinima = (
   const agora = new Date();
   const horarioDaConsulta = new Date(horario);
 
-  agora.setMinutes(agora.getMinutes() - antecedencia_minima);
+  const timeOffset = agora.setMinutes(agora.getMinutes() + antecedencia_minima)
 
-  console.log(horarioDaConsulta, agora)
-
-  return horarioDaConsulta > agora;
+  return horarioDaConsulta.getTime() > timeOffset;
 };
 
 const pacienteEstaDisponivel = async (
