@@ -42,6 +42,8 @@ const validaAntecedenciaMinima = (
 
   agora.setMinutes(agora.getMinutes() - antecedencia_minima);
 
+  console.log(horarioDaConsulta, agora)
+
   return horarioDaConsulta > agora;
 };
 
