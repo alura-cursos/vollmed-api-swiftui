@@ -13,7 +13,7 @@ import { Role } from "../auth/roles.js";
 export const pacienteRouter = Router();
 
 pacienteRouter.get("/", lerPacientes);
-pacienteRouter.post("/", verificaTokenJWT(Role.paciente), criarPaciente);
+pacienteRouter.post("/", criarPaciente);
 pacienteRouter.get("/:id", verificaTokenJWT(Role.paciente), lerPaciente);
 pacienteRouter.get("/:id/consultas", verificaTokenJWT(Role.paciente), listaConsultasPaciente);
 pacienteRouter.put("/:id", atualizarPaciente);
