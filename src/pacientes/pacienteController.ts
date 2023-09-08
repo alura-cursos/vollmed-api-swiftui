@@ -92,7 +92,7 @@ export const listaConsultasPaciente = async (req: Request, res: Response): Promi
   const consultadasTratadas = consultas.map((consulta) => {
     return {
       id: consulta.id,
-      data: formatDateToISOWithoutMillis(consulta.data),
+      data: consulta.data,
       especialista: consulta.especialista,
     };
   });

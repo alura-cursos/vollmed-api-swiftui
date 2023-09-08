@@ -17,9 +17,14 @@ const validaClinicaEstaAberta = (data: Date): boolean => {
     "Sexta",
     "Sábado",
   ];
-  const dataObj = new Date(data + "Z");
-  const diaDaSemana = diasDaSemana[dataObj.getUTCDay()];
-  const hora = dataObj.getUTCHours();
+  console.log(`daaaata ${data}`)
+  const dataObj = new Date(data);
+  console.log(`daata ${dataObj}`)
+  const diaDaSemana = diasDaSemana[dataObj.getDay()];
+  const hora = dataObj.getHours();
+  
+  console.log(diaDaSemana, hora);
+
   return (
     diaDaSemana !== "Domingo" &&
     hora >= horarioInicioDaClinica &&
@@ -36,12 +41,14 @@ const validaAntecedenciaMinima = (
   horario: Date,
   antecedencia_minima
 ): boolean => {
-  const agora = new Date();
-  const horarioDaConsulta = new Date(horario);
-
-  agora.setMinutes(agora.getMinutes() - antecedencia_minima);
-
-  return horarioDaConsulta > agora;
+  const agora = new Date().getTime(); // Pegar tempo em milissegundos
+  const horarioDaConsulta = new Date(horario).getTime(); // Converter horário da consulta para milissegundos
+  
+  const limiteParaCancelar = horarioDaConsulta - antecedencia_minima * 1000; // Subtrair antecedência mínima em milissegundos
+  
+  console.log(agora, horarioDaConsulta, limiteParaCancelar)
+  
+  return agora < limiteParaCancelar; // Verificar se o horário atual é anterior ao limite para cancelar
 };
 
 const pacienteEstaDisponivel = async (
