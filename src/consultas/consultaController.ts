@@ -15,8 +15,6 @@ export const criaConsulta = async (
 ): Promise<Response> => {
   const { especialista, paciente, data } = req.body
 
-  console.log(data)
-
   if (!validaClinicaEstaAberta(data)) {
     throw new AppError('A clinica não está aberta nesse horário')
   }
@@ -122,7 +120,17 @@ export const atualizaHorarioConsulta = async (
     throw new AppError('Consulta não encontrada')
   }
 
-  console.log(novaData)
+  if (!validaClinicaEstaAberta(novaData)) {
+    throw new AppError('A clinica não está aberta nesse horário')
+  }
+
+  if (!validaAntecedenciaMinima(novaData, 30)) {
+    throw new AppError(
+      'A consulta deve ser agendada com 30 minutos de antecedência',
+      Status.BAD_REQUEST
+    )
+  }
+
   consulta.data = novaData
 
   await AppDataSource.manager.save(Consulta, consulta)
