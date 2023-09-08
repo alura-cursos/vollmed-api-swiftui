@@ -15,6 +15,8 @@ export const criaConsulta = async (
 ): Promise<Response> => {
   const { especialista, paciente, data } = req.body
 
+  console.log(data)
+
   if (!validaClinicaEstaAberta(data)) {
     throw new AppError('A clinica não está aberta nesse horário')
   }
@@ -45,6 +47,8 @@ export const criaConsulta = async (
   consulta.especialista = especialista
   consulta.paciente = paciente
   consulta.data = data
+
+
 
   await AppDataSource.manager.save(Consulta, consulta)
   return res.json(consulta)
