@@ -19,12 +19,21 @@ export const criarPaciente = async (req: Request, res: Response): Promise<void> 
     throw new AppError("CPF Inválido!");
   }
 
-  const pacienteExistente = await AppDataSource.manager.findOne(Paciente, {
+  const existeCPF = await AppDataSource.manager.findOne(Paciente, {
     where: { cpf },
   });
 
-  if (pacienteExistente) {
+  if (existeCPF) {
     res.status(400).json({ error: "CPF já registrado!" });
+    return;
+  }
+
+  const existeEmail = await AppDataSource.manager.findOne(Paciente, {
+    where: { email },
+  });
+
+  if (existeEmail) {
+    res.status(400).json({ error: "Email já registrado!" });
     return;
   }
 
