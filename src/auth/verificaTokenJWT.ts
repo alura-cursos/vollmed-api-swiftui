@@ -18,7 +18,7 @@ export function verificaTokenJWT (...role: Role[]) {
     }
 
     // Verifica se o token é válido
-    jwt.verify(token, process.env.SECRET, function (err, decoded) {
+    jwt.verify(token, 'secret_token', function (err, decoded) {
       if (err) {
         return res
           .status(403)
