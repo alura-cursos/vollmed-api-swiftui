@@ -12,7 +12,7 @@ import errorMiddleware from "./error/errorMiddleware.js";
 
 dotenv.config({ path: ".env" });
 
-const PORT = process.env.SERVER_PORT || 3000;
+const PORT = 3000;
 const app = express();
 
 const corsOpts = {
