@@ -6,7 +6,7 @@ import {
   atualizarPaciente,
   desativaPaciente,
   listaConsultasPaciente,
-} from "./pacienteController.js";
+} from "./pacienteController";
 
 export const pacienteRouter = Router();
 
