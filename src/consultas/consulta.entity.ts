@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from "typeorm";
-import { Especialista } from "../especialistas/Especialista.entity.js";
-import { Paciente } from "../pacientes/paciente.entity.js";
+import { Especialista } from "../especialistas/Especialista.entity";
+import { Paciente } from "../pacientes/paciente.entity";
 
 @Entity()
 export class Consulta {

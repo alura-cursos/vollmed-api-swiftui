@@ -1,19 +1,15 @@
 import { type Request, type Response } from "express";
-import { Paciente } from "./paciente.entity.js";
-import { AppDataSource } from "../data-source.js";
-import { CPFValido } from "./validacaoCPF.js";
-import { Consulta } from "../consultas/consulta.entity.js";
-import { AppError, Status } from "../error/ErrorHandler.js";
+import { Paciente } from "./paciente.entity";
+import { AppDataSource } from "../data-source";
+import { CPFValido } from "./validacaoCPF";
+import { Consulta } from "../consultas/consulta.entity";
+import { AppError, Status } from "../error/ErrorHandler";
 
-export const criarPaciente = async (req: Request, res: Response): Promise<void> => {
-  let {
-    cpf,
-    nome,
-    email,
-    senha,
-    telefone,
-    planoSaude,
-  } = req.body;
+export const criarPaciente = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  let { cpf, nome, email, senha, telefone, planoSaude } = req.body;
 
   if (!CPFValido(cpf)) {
     throw new AppError("CPF Inválido!");
@@ -44,7 +40,7 @@ export const criarPaciente = async (req: Request, res: Response): Promise<void> 
       email,
       senha,
       telefone,
-      planoSaude,
+      planoSaude
     );
 
     await AppDataSource.manager.save(Paciente, paciente);
@@ -55,7 +51,10 @@ export const criarPaciente = async (req: Request, res: Response): Promise<void> 
   }
 };
 
-export const lerPacientes = async (req: Request, res: Response): Promise<void> => {
+export const lerPacientes = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const tabelaPaciente = AppDataSource.getRepository(Paciente);
   const allPacientes = await tabelaPaciente.find();
 
@@ -66,7 +65,10 @@ export const lerPacientes = async (req: Request, res: Response): Promise<void> =
   }
 };
 
-export const lerPaciente = async (req: Request, res: Response): Promise<void> => {
+export const lerPaciente = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const paciente = await AppDataSource.manager.findOne(Paciente, {
     where: { id },
@@ -84,7 +86,10 @@ function formatDateToISOWithoutMillis(date) {
   return isoString.slice(0, 19); // Removendo os milissegundos e o sufixo "Z"
 }
 
-export const listaConsultasPaciente = async (req: Request, res: Response): Promise<Response> => {
+export const listaConsultasPaciente = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { id } = req.params;
   const paciente = await AppDataSource.manager.findOne(Paciente, {
     where: { id },
@@ -110,15 +115,11 @@ export const listaConsultasPaciente = async (req: Request, res: Response): Promi
 };
 
 // update
-export const atualizarPaciente = async (req: Request, res: Response): Promise<void> => {
-  let {
-    nome,
-    email,
-    senha,
-    telefone,
-    planoSaude,
-    cpf
-  } = req.body;
+export const atualizarPaciente = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  let { nome, email, senha, telefone, planoSaude, cpf } = req.body;
 
   const { id } = req.params;
 
@@ -149,7 +150,10 @@ export const atualizarPaciente = async (req: Request, res: Response): Promise<vo
 };
 
 // Não deleta o paciente, fica inativo
-export const desativaPaciente = async (req: Request, res: Response): Promise<void> => {
+export const desativaPaciente = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { id } = req.params;
   const paciente = await AppDataSource.manager.findOne(Paciente, {
     where: { id },
