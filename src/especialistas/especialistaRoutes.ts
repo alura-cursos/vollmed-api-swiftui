@@ -6,7 +6,7 @@ import {
   atualizarEspecialista,
   apagarEspecialista,
   atualizaContato,
-} from "./especialistaController.js";
+} from "./especialistaController";
 export const especialistaRouter = Router();
 
 especialistaRouter.get("/", especialistas);

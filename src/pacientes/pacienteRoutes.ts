@@ -6,9 +6,9 @@ import {
   atualizarPaciente,
   desativaPaciente,
   listaConsultasPaciente,
-} from "./pacienteController.js";
-import { verificaTokenJWT } from "../auth/verificaTokenJWT.js";
-import { Role } from "../auth/roles.js";
+} from "./pacienteController";
+import { verificaTokenJWT } from "../auth/verificaTokenJWT";
+import { Role } from "../auth/roles";
 
 export const pacienteRouter = Router();
 

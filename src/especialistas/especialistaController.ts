@@ -1,8 +1,8 @@
 import { type Request, type Response } from "express";
-import { AppDataSource } from "../data-source.js";
-import { Especialista } from "./Especialista.entity.js";
-import { AppError } from "../error/ErrorHandler.js";
-import { encryptPassword } from "../auth/cryptografiaSenha.js";
+import { AppDataSource } from "../data-source";
+import { Especialista } from "./Especialista.entity";
+import { AppError } from "../error/ErrorHandler";
+import { encryptPassword } from "../auth/cryptografiaSenha";
 
 // Get All
 export const especialistas = async (
@@ -30,15 +30,8 @@ export const criarEspecialista = async (
     const createdEspecialistas: Especialista[] = [];
 
     for (const especialistaData of requestBody) {
-      const {
-        nome,
-        crm,
-        imagem,
-        especialidade,
-        email,
-        telefone,
-        senha,
-      } = especialistaData;
+      const { nome, crm, imagem, especialidade, email, telefone, senha } =
+        especialistaData;
 
       const especialista = new Especialista(
         nome,
@@ -69,15 +62,8 @@ export const criarEspecialista = async (
     res.status(200).json(createdEspecialistas);
   } else {
     // Se o corpo for um objeto, trata como um único especialista
-    const {
-      nome,
-      crm,
-      imagem,
-      especialidade,
-      email,
-      telefone,
-      senha,
-    } = requestBody;
+    const { nome, crm, imagem, especialidade, email, telefone, senha } =
+      requestBody;
 
     const especialista = new Especialista(
       nome,
@@ -94,8 +80,9 @@ export const criarEspecialista = async (
       res.status(200).json(especialista);
     } catch (error) {
       if (
-        (await AppDataSource.manager.findOne(Especialista, { where: { crm } })) !=
-        null
+        (await AppDataSource.manager.findOne(Especialista, {
+          where: { crm },
+        })) != null
       ) {
         res.status(422).json({ message: "Crm já cadastrado" });
       } else {
@@ -127,15 +114,7 @@ export const atualizarEspecialista = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  let {
-    nome,
-    crm,
-    imagem,
-    especialidade,
-    email,
-    telefone,
-    senha,
-  } = req.body;
+  let { nome, crm, imagem, especialidade, email, telefone, senha } = req.body;
   const { id } = req.params;
 
   const especialistaUpdate = await AppDataSource.manager.findOneBy(

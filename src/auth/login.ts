@@ -1,10 +1,10 @@
 import { type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
-import { Autenticaveis } from "./auth.entity.js";
+import { Autenticaveis } from "./auth.entity";
 
-import { AppDataSource } from "../data-source.js";
-import { decryptPassword } from "./cryptografiaSenha.js";
-import { AppError } from "../error/ErrorHandler.js";
+import { AppDataSource } from "../data-source";
+import { decryptPassword } from "./cryptografiaSenha";
+import { AppError } from "../error/ErrorHandler";
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   const { email, senha } = req.body;

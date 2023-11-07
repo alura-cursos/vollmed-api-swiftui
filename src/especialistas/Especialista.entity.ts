@@ -10,9 +10,9 @@ import {
   PrimaryGeneratedColumn,
   Relation,
 } from "typeorm";
-import { type IAutenticavel } from "../auth/IAutenticavel.js";
-import { Role } from "../auth/roles.js";
-import { encryptPassword } from "../auth/cryptografiaSenha.js";
+import { type IAutenticavel } from "../auth/IAutenticavel";
+import { Role } from "../auth/roles";
+import { encryptPassword } from "../auth/cryptografiaSenha";
 
 @Entity()
 export class Especialista implements IAutenticavel {
@@ -40,15 +40,7 @@ export class Especialista implements IAutenticavel {
   @Column("varchar", { nullable: true })
   telefone: string;
 
-  constructor(
-    nome,
-    crm,
-    imagem,
-    especialidade,
-    email,
-    telefone,
-    senha
-  ) {
+  constructor(nome, crm, imagem, especialidade, email, telefone, senha) {
     this.nome = nome;
     this.crm = crm;
     this.imagem = imagem;

@@ -9,9 +9,9 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from "typeorm";
-import { type IAutenticavel } from "../auth/IAutenticavel.js";
-import { Role } from "../auth/roles.js";
-import { encryptPassword } from "../auth/cryptografiaSenha.js";
+import { type IAutenticavel } from "../auth/IAutenticavel";
+import { Role } from "../auth/roles";
+import { encryptPassword } from "../auth/cryptografiaSenha";
 
 @Entity()
 export class Paciente implements IAutenticavel {
@@ -36,14 +36,7 @@ export class Paciente implements IAutenticavel {
   @Column("varchar", { length: 100, nullable: true })
   planoSaude: string;
 
-  constructor(
-    cpf,
-    nome,
-    email,
-    senha: string,
-    telefone,
-    planoSaude,
-  ) {
+  constructor(cpf, nome, email, senha: string, telefone, planoSaude) {
     this.cpf = cpf;
     this.nome = nome;
     this.email = email;

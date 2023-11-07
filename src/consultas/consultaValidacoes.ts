@@ -1,21 +1,21 @@
 import { Between } from "typeorm";
-import { AppDataSource } from "../data-source.js";
-import { Especialista } from "../especialistas/Especialista.entity.js";
-import { Paciente } from "../pacientes/paciente.entity.js";
-import { Consulta } from "./consulta.entity.js";
+import { AppDataSource } from "../data-source";
+import { Especialista } from "../especialistas/Especialista.entity";
+import { Paciente } from "../pacientes/paciente.entity";
+import { Consulta } from "./consulta.entity";
 
 const horarioInicioDaClinica: number = 7;
 const horarioFechamentoDaClinica: number = 19;
 
 const adjustForTimezone = (date: Date): Date => {
-  const dataObj = new Date(date)
+  const dataObj = new Date(date);
 
-  const timezoneOffset = dataObj.getTimezoneOffset() * 60000
+  const timezoneOffset = dataObj.getTimezoneOffset() * 60000;
 
-  dataObj.setTime(dataObj.getTime() + timezoneOffset)
+  dataObj.setTime(dataObj.getTime() + timezoneOffset);
 
-  return dataObj
-}
+  return dataObj;
+};
 
 const validaClinicaEstaAberta = (data: Date): boolean => {
   const diasDaSemana = [
@@ -51,7 +51,7 @@ const validaAntecedenciaMinima = (
   const agora = new Date();
   const horarioDaConsulta = new Date(horario);
 
-  const timeOffset = agora.setMinutes(agora.getMinutes() + antecedencia_minima)
+  const timeOffset = agora.setMinutes(agora.getMinutes() + antecedencia_minima);
 
   return horarioDaConsulta.getTime() > timeOffset;
 };

@@ -3,12 +3,12 @@ import express from "express";
 import cors from "cors";
 import "express-async-errors";
 import "reflect-metadata";
-import rotaAuth from "./auth/authRoutes.js";
-import rotaConsulta from "./consultas/consultaRoutes.js";
-import { AppDataSource } from "./data-source.js";
-import rotaEspecialista from "./especialistas/especialistaRoutes.js";
-import rotaPaciente from "./pacientes/pacienteRoutes.js";
-import errorMiddleware from "./error/errorMiddleware.js";
+import rotaAuth from "./auth/authRoutes";
+import rotaConsulta from "./consultas/consultaRoutes";
+import { AppDataSource } from "./data-source";
+import rotaEspecialista from "./especialistas/especialistaRoutes";
+import rotaPaciente from "./pacientes/pacienteRoutes";
+import errorMiddleware from "./error/errorMiddleware";
 
 dotenv.config({ path: ".env" });
 
